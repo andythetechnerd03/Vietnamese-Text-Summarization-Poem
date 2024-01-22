@@ -1,2 +1,5 @@
 pandas
 joblib
+packaging
+ninja
+flash-attn
