@@ -9,7 +9,7 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description='...')
     parser.add_argument('--input_path', type=str, default='/home/pphuc/Coding/Project/Vietnamese-Poem-Summarization/data/raw/5_chu_dataset.csv',
                         help='')
-    parser.add_argument('--output_path', type=str, default='/home/pphuc/Coding/Project/Vietnamese-Poem-Summarization/data/processed/processed.json',
+    parser.add_argument('--output_path', type=str, default='/home/pphuc/Coding/Project/Vietnamese-Poem-Summarization/data/processed/data_fpt.json',
                         help='')
     args = parser.parse_args()
     return args
