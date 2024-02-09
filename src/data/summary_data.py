@@ -3,7 +3,8 @@ import json
 from datasets import load_dataset
 from transformers import (
     AutoModelForCausalLM,
-    AutoTokenizer
+    AutoTokenizer,
+    GenerationConfig
 )
 from tqdm import tqdm
 import torch
@@ -22,6 +23,8 @@ def parse_arguments():
     parser.add_argument('--num_proc', type=int, default=2,
                         help='')
     parser.add_argument('--num_worker', type=int, default=8,
+                        help='')
+    parser.add_argument('--batch_size', type=int, default=4,
                         help='')
     args = parser.parse_args()
     return args
@@ -82,11 +85,20 @@ def main():
 
 
     final_data = []
+    
 
-    for batch in dataloader:
+    generation_config = GenerationConfig(
+        do_sample=False,
+        num_beams=1,
+        pad_token_id=0,
+        eos_token_id=0,
+    )
+
+    for batch in tqdm(dataloader):
         input_ids = tokenizer.apply_chat_template(batch, return_tensors="pt")
 
         out_ids = model.generate(
+            generation_config=generation_config,
             input_ids=input_ids,
             max_new_tokens=512,
             do_sample=True,
