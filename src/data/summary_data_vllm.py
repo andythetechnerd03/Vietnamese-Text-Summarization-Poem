@@ -62,7 +62,7 @@ template = [
 
 def main():
     args = parse_arguments()
-    data = load_dataset("json", args.input_path, split="train")
+    data = load_dataset("json", data_files=args.input_path, split="train")
 
     llm = LLM(model=args.model)
     sampling_params = SamplingParams(temperature=0.8, top_p=0.95, max_tokens=1024)
@@ -71,7 +71,7 @@ def main():
 
     def apply_template(data):
         poem = data["poem"]
-        data["prompts_vllm"] = tokenizer.apply_chat_template(template + [poem], tokenize=False)
+        data["prompts_vllm"] = tokenizer.apply_chat_template(template + [{"role": "user", "content": poem}], tokenize=False)
         return data
     
     prompts = data.map(apply_template, num_proc=args.num_proc)
@@ -87,7 +87,7 @@ def main():
         outputs = llm.generate(prompts[idx:end]["prompts_vllm"], sampling_params)
 
         for output, origin_prompt in zip(outputs, prompts):
-            final_data.append({"text": output, "origin_prompt": origin_prompt})
+            final_data.append({"text": output.outputs[0].text, "origin_prompt": origin_prompt})
 
 
         save_json(os.path.join(args.output_directory, f"file_{count_file}.json"), final_data)
