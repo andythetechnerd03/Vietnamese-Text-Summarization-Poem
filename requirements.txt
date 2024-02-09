@@ -3,3 +3,6 @@ joblib
 packaging
 ninja
 flash-attn
+vllm
+transformers
+accelerate
