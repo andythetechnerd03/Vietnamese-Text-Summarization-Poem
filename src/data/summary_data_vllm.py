@@ -25,8 +25,6 @@ def parse_arguments():
                         help='')
     parser.add_argument('--num_proc', type=int, default=2,
                         help='')
-    parser.add_argument('--num_worker', type=int, default=8,
-                        help='')
     parser.add_argument('--batch_size', type=int, default=100,
                         help='')
     args = parser.parse_args()
