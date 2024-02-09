@@ -25,7 +25,7 @@ def parse_arguments():
                         help='')
     parser.add_argument('--num_proc', type=int, default=2,
                         help='')
-    parser.add_argument('--batch_size', type=int, default=100,
+    parser.add_argument('--batch_size', type=int, default=200,
                         help='')
     args = parser.parse_args()
     return args
@@ -38,7 +38,7 @@ def load_json(path):
 
 def save_json(path, file_save):
     with open(path, 'w') as f:
-        return json.dump(file_save, f)
+        return json.dump(file_save, f, ensure_ascii=False)
 
 
 class CustomImageDataset(Dataset):
@@ -86,8 +86,8 @@ def main():
             end = idx+args.batch_size
         outputs = llm.generate(prompts[idx:end]["prompts_vllm"], sampling_params)
 
-        for output, origin_prompt in zip(outputs, prompts):
-            final_data.append({"text": output.outputs[0].text, "origin_prompt": origin_prompt})
+        for output, prompt_origin in zip(outputs, prompts[idx:end]["prompts_vllm"]):
+            final_data.append({"text": output.outputs[0].text.strip(), "prompt": prompt_origin})
 
 
         save_json(os.path.join(args.output_directory, f"file_{count_file}.json"), final_data)
