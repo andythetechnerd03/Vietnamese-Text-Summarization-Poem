@@ -1,0 +1,68 @@
+adapter: qlora
+base_model: Viet-Mistral/Vistral-7B-Chat
+bf16: true
+dataset_prepared_path: null
+datasets:
+- path: pphuc25/poem-5-words-vietnamese
+  type:
+    field_instruction: input
+    field_output: output
+    field_system: system
+    format: '[INST] <<SYS>> {instruction} <</SYS>>
+
+      {input} [/INST] '
+    system_prompt: "B\u1EA1n l\xE0 m\u1ED9t nh\xE0 th\u01A1 chuy\xEAn nghi\u1EC7p,\
+      \ nhi\u1EC7m v\u1EE5 c\u1EE7a b\u1EA1n l\xE0 chuy\u1EC3n b\xE0i v\u0103n n\xE0\
+      y th\xE0nh 1 b\xE0i th\u01A1 5 ch\u1EEF t\u1EEB kho\u1EA3ng 1 \u0111\u1EBFn\
+      \ 3 kh\u1ED5"
+debug: null
+deepspeed: null
+early_stopping_patience: null
+evals_per_epoch: null
+flash_attention: false
+fp16: false
+fsdp: null
+fsdp_config: null
+gradient_accumulation_steps: 4
+gradient_checkpointing: true
+group_by_length: false
+is_mistral_derived_model: true
+learning_rate: 0.0002
+load_in_4bit: true
+load_in_8bit: false
+local_rank: null
+logging_steps: 1
+lora_alpha: 16
+lora_dropout: 0.05
+lora_fan_in_fan_out: null
+lora_model_dir: null
+lora_r: 32
+lora_target_linear: true
+lora_target_modules: null
+lr_scheduler: cosine
+max_steps: 20
+micro_batch_size: 16
+mlflow_experiment_name: colab-example
+model_type: MistralForCausalLM
+num_epochs: 5
+optimizer: paged_adamw_32bit
+output_dir: ./qlora-out
+pad_to_sequence_len: true
+resume_from_checkpoint: null
+sample_packing: true
+saves_per_epoch: null
+sequence_len: 1096
+special_tokens: null
+strict: false
+tf32: false
+tokenizer_type: AutoTokenizer
+train_on_inputs: false
+val_set_size: 0.05
+wandb_entity: null
+wandb_log_model: null
+wandb_name: null
+wandb_project: null
+wandb_watch: null
+warmup_steps: 10
+weight_decay: 0.0
+xformers_attention: null
