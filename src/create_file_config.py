@@ -33,7 +33,7 @@ pad_to_sequence_len: true
 
 lora_r: 32
 lora_alpha: 16
-lora_dropout: 0.05
+lora_dropout: 0.1
 lora_target_modules:
 lora_target_linear: true
 lora_fan_in_fan_out:
@@ -44,20 +44,21 @@ wandb_watch:
 wandb_name:
 wandb_log_model:
 
+
 mlflow_experiment_name: colab-example
 
 gradient_accumulation_steps: 4
 micro_batch_size: 16
-num_epochs: 5
-max_steps: 20
-optimizer: paged_adamw_32bit
+num_epochs: 2
+max_steps: 100
+optimizer: adamw_bnb_8bit
 lr_scheduler: cosine
 learning_rate: 0.0002
 
 train_on_inputs: false
 group_by_length: false
-bf16: true
-fp16: false
+bf16: auto
+fp16:
 tf32: false
 
 gradient_checkpointing: true
@@ -66,7 +67,7 @@ resume_from_checkpoint:
 local_rank:
 logging_steps: 1
 xformers_attention:
-flash_attention: false
+flash_attention: true
 
 warmup_steps: 10
 evals_per_epoch:
@@ -77,7 +78,9 @@ weight_decay: 0.0
 fsdp:
 fsdp_config:
 special_tokens:
-
+  bos_token: "<s>"
+  eos_token: "</s>"
+  unk_token: "<unk>"
 """
 
 # Convert the YAML string to a Python dictionary

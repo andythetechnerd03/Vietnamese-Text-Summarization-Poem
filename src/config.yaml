@@ -1,6 +1,6 @@
 adapter: qlora
 base_model: Viet-Mistral/Vistral-7B-Chat
-bf16: true
+bf16: auto
 dataset_prepared_path: null
 datasets:
 - path: pphuc25/poem-5-words-vietnamese
@@ -19,8 +19,8 @@ debug: null
 deepspeed: null
 early_stopping_patience: null
 evals_per_epoch: null
-flash_attention: false
-fp16: false
+flash_attention: true
+fp16: null
 fsdp: null
 fsdp_config: null
 gradient_accumulation_steps: 4
@@ -33,26 +33,29 @@ load_in_8bit: false
 local_rank: null
 logging_steps: 1
 lora_alpha: 16
-lora_dropout: 0.05
+lora_dropout: 0.1
 lora_fan_in_fan_out: null
 lora_model_dir: null
 lora_r: 32
 lora_target_linear: true
 lora_target_modules: null
 lr_scheduler: cosine
-max_steps: 20
+max_steps: 100
 micro_batch_size: 16
 mlflow_experiment_name: colab-example
 model_type: MistralForCausalLM
-num_epochs: 5
-optimizer: paged_adamw_32bit
+num_epochs: 2
+optimizer: adamw_bnb_8bit
 output_dir: ./qlora-out
 pad_to_sequence_len: true
 resume_from_checkpoint: null
 sample_packing: true
 saves_per_epoch: null
 sequence_len: 1096
-special_tokens: null
+special_tokens:
+  bos_token: <s>
+  eos_token: </s>
+  unk_token: <unk>
 strict: false
 tf32: false
 tokenizer_type: AutoTokenizer
