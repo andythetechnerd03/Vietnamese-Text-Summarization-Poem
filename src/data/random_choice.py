@@ -9,6 +9,8 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description='...')
     parser.add_argument('--input_path', type=str, default='/home/pphuc/Coding/Project/Vietnamese-Poem-Summarization/data/raw/5_chu_dataset.csv',
                         help='')
+    parser.add_argument('--name_col_content', type=str, default='content',
+                        help='')
     parser.add_argument('--output_path', type=str, default='/home/pphuc/Coding/Project/Vietnamese-Poem-Summarization/data/processed/data_fpt.json',
                         help='')
     args = parser.parse_args()
@@ -23,7 +25,7 @@ def save_json(path, file_save):
 def random_choice_sentence(poem: str):
     if type(poem) == float:
         print(poem)
-    poem_split = poem.split("\n\n")
+    poem_split = poem.replace(" <\n> ", "\n").replace("<\n> ", "\n").split("\n\n")
     start, end = 0, len(poem_split)
     temp_poem = []
     while start < len(poem_split):
@@ -40,18 +42,21 @@ def random_choice_sentence(poem: str):
 def main():
     args = parse_arguments()
     data = pd.read_csv(args.input_path)
-    poems = list(data["content"].dropna(how='all'))
+    poems = list(data[args.name_col_content].dropna(how='all'))
 
-    poem_data = Parallel(n_jobs=3)(delayed(random_choice_sentence)(poem) for poem in poems)
+    poem_data = Parallel(n_jobs=3)(delayed(random_choice_sentence)(poem.replace("thơ năm chữ: ", "").strip()) for poem in poems)
     
-    data_final = [
-        {
-            "id": idx,
-            "content": poem_temp
+    idx = 0
+    data_final = []
+    for poem_temp in poem_data:
+        for poem_temp_temp in poem_temp:
+            data_temp = {
+                "id": idx,
+                "poem": poem_temp_temp
 
-        }
-        for idx, poem_temp in enumerate(poem_data)
-    ]
+            }
+            data_final.append(data_temp)
+            idx += 1
     save_json(args.output_path, data_final)
     
 
