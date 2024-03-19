@@ -23,7 +23,7 @@ This is not easy. Such data that takes the input as a long text (newspaper artic
 - From the poems we use prompt engineering to ask our base model to generate a story from such poem. The prompt is in the form </br>
 ``` Bạn là một nhà kể chuyện phiếm, nhiệm vụ của bạn là hãy kể 1 câu chuyện đơn giản và ngắn gọn từ một bài thơ, câu chuyện nên là 1 bài liền mạch, thực tế\n\n{insert poem here}```
 - Speaking of prompt engineering, there is another prompt to generate poem from context. </br>
-```Bạn là một nhà thơ chuyên nghiệp, nhiệm vụ của bạn là chuyển bài văn này thành 1 bài thơ 5 chữ từ khoảng 1 đến 3 khổ: \n {insert context here} \n {insert poem here}```
+```Bạn là một nhà thơ chuyên nghiệp, nhiệm vụ của bạn là chuyển bài văn này thành 1 bài thơ 5 chữ từ khoảng 1 đến 3 khổ: \n {insert context here}```
 - The pre-processing step is faily simple. A bit of lowercase here, punctuation removal there, plus reducing poems to 1-3 random paragraphs, and we are done.
 
 After all, we have about 72,101 samples with a ratio of 0.05 (68495 on the train set and 3606 on the test set)
@@ -89,7 +89,7 @@ We used Gradio for fast deployment on Google Colab. It should be in `notebook/in
 
 ## Credits
 - [Phan Phuc](https://github.com/pphuc25) for doing the fine-tuning.
-- [Me](https://github.com/andythetechnerd03) for designing the pipeline, testing the model and writing report.
+- [Me](https://github.com/andythetechnerd03) for designing the pipeline and testing the model.
 - [Truong Vo](https://github.com/justinvo277) for collecting the data.
 
 
