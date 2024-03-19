@@ -34,6 +34,8 @@ Code:
 python3 src/data/random_choice.py
 ```
 
+We published the dataset at [here](https://huggingface.co/datasets/pphuc25/poem-5-words-vietnamese)
+
 ### Custom Evaluation Data
 As part of the final evaluation for benchmark, we gathered around 27 Vietnamese children's stories and divided into many samples, accumulating to 118 samples. The dataset can be found [here](https://docs.google.com/spreadsheets/d/1rinedGbBtqr-dHyG0G8ffAh8mChFzgDodbtumcuKldY/edit#gid=0)
 
@@ -59,6 +61,8 @@ As mentioned earlier, we use [Vistral-7B-Chat](https://huggingface.co/Viet-Mistr
 - Batch size: 16
 - Optimizer: Adamw bnb 8bit
 - Sequence Len: 1096
+
+The weights can be found [here](https://huggingface.co/pphuc25/poem-vistral)
 
 The notebook for training can be found at `notebook/Fine_tune_LLMs_with_Axolotl.ipynb`
 
