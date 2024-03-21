@@ -3,10 +3,37 @@ Summarize a piece of text with poem. Doesn't it sound fun? </br>
 
 ## Introduction
 
-Jokes aside, this is a fun project by my team at FPT University about fine-tuning a Large Language Model (LLM) at summarizing a piece of long Vietnamese text in the form of **poems**. We call the model **VistralPoem**. </br>
+Jokes aside, this is a fun project by my team at FPT University about fine-tuning a Large Language Model (LLM) at summarizing a piece of long Vietnamese text in the form of **poems**. We call the model **VistralPoem5**. </br>
 Here's a little example:
 ![image](https://github.com/andythetechnerd03/Vietnamese-Poem-Summarization/assets/101492362/08fced39-453e-40f0-a17c-0f9b62d8ee80)
 
+## HuggingFace 🤗
+``` python
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
+model_name = "pphuc25/VistralPoem5"
+tokenizer = AutoTokenizer.from_pretrained(model_name, device_map="auto")
+model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
+
+inputs = [
+    {"role": "system", "content": "Bạn là một nhà thơ chuyên nghiệp, nhiệm vụ của bạn là chuyển bài văn này thành 1 bài thơ 5 chữ từ khoảng 1 đến 3 khổ"},
+    {"role": "user", "content": "nhớ tới lời mẹ dặn\nsợ mẹ buồn con đau\nnên tự mình đứng dậy\nnhanh như có phép màu"}
+]
+
+input_ids = tokenizer.apply_chat_template(inputs, return_tensors="pt").to(model.device)
+outputs = model.generate(
+    input_ids=input_ids,
+    max_new_tokens=200,
+    do_sample=True,
+    top_p=0.95,
+    top_k=20,
+    temperature=0.1,
+    repetition_penalty=1.05,
+)
+
+output_str = tokenizer.batch_decode(outputs[:, input_ids.size(1): ], skip_special_tokens=True)[0].strip()
+print(output_str)
+```
 
 ## Fine-tuning LLM
 This is not an easy task. The model we are using is a Vietnamese version of the popular [Mistral-7B](https://arxiv.org/abs/2310.06825) with 7 billion parameters. Obviously, it is very computationally expensive to fine-tune, therefore we applied various state-of-the-art optimization techniques:
@@ -15,6 +42,14 @@ This is not an easy task. The model we are using is a Vietnamese version of the 
 - [Mixed Precision Training](https://arxiv.org/abs/1710.03740): here we combine `float32` with `bfloat16` data type for faster training.
 
 To train the LLM seamlessly as possible, we used a popular open-source fine-tuning platform called [Axolotl](https://github.com/OpenAccess-AI-Collective/axolotl). This platform helps you declare the parameters and config and train quickly without much code.
+
+### Code for fine-tuning model
+To customize the configuration, you can modify the `create_file_config.py` file. After making your changes, run the script to generate a personalized configuration file. The following is an example of how to execute the model training:
+``` python
+cd src
+export PYTHONPATH="$PWD"
+accelerate launch -m axolotl.cli.train config.yaml
+```
 
 ## Data
 This is not easy. Such data that takes the input as a long text (newspaper article, story) and output a poem is very hard to find. So we created our own... by using *prompt engineering*.
@@ -27,12 +62,6 @@ This is not easy. Such data that takes the input as a long text (newspaper artic
 - The pre-processing step is faily simple. A bit of lowercase here, punctuation removal there, plus reducing poems to 1-3 random paragraphs, and we are done.
 
 After all, we have about 72,101 samples with a ratio of 0.05 (68495 on the train set and 3606 on the test set)
-
-
-Code:
-``` python
-python3 src/data/random_choice.py
-```
 
 We published the dataset at [here](https://huggingface.co/datasets/pphuc25/poem-5-words-vietnamese)
 
