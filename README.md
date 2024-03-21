@@ -37,7 +37,7 @@ print(output_str)
 
 ## Fine-tuning
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/andythetechnerd03/Vietnamese-Text-Summarization-Poem/blob/main/notebooks/fine_tune_with_axolotl.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/andythetechnerd03/Vietnamese-Text-Summarization-Poem/blob/main/notebooks/fine_tune_with_axolotl.ipynb)
 
 This is not an easy task. The model we are using is a Vietnamese version of the popular [Mistral-7B](https://arxiv.org/abs/2310.06825) with 7 billion parameters. Obviously, it is very computationally expensive to fine-tune, therefore we applied various state-of-the-art optimization techniques:
 - [Flash Attention](https://github.com/Dao-AILab/flash-attention): helps reduce computation complexity of Attention from $O(n^2)$ to $O(n\log n)$
