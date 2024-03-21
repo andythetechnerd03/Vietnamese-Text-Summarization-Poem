@@ -5,7 +5,7 @@ Summarize a piece of text with poem. Doesn't it sound fun? </br>
 
 Jokes aside, this is a fun project by my team at FPT University about fine-tuning a Large Language Model (LLM) at summarizing a piece of long Vietnamese text in the form of **poems**. We call the model **VistralPoem5**. </br>
 Here's a little example:
-![image](https://github.com/andythetechnerd03/Vietnamese-Poem-Summarization/assets/101492362/08fced39-453e-40f0-a17c-0f9b62d8ee80)
+![image](/assets/example_data_transformed.png)
 
 ## HuggingFace 🤗
 ``` python
@@ -35,7 +35,10 @@ output_str = tokenizer.batch_decode(outputs[:, input_ids.size(1): ], skip_specia
 print(output_str)
 ```
 
-## Fine-tuning LLM
+## Fine-tuning
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/andythetechnerd03/Vietnamese-Text-Summarization-Poem/blob/main/notebooks/fine_tune_with_axolotl.ipynb)
+
 This is not an easy task. The model we are using is a Vietnamese version of the popular [Mistral-7B](https://arxiv.org/abs/2310.06825) with 7 billion parameters. Obviously, it is very computationally expensive to fine-tune, therefore we applied various state-of-the-art optimization techniques:
 - [Flash Attention](https://github.com/Dao-AILab/flash-attention): helps reduce computation complexity of Attention from $O(n^2)$ to $O(n\log n)$
 - [QLoRA (Quantized Low-Rank Adaptation)](https://arxiv.org/abs/2305.14314): train a smaller "adapter" which is a low-rank weight matrices, allowing for less computation. Furthermore, the base model is quantized to only `4-bit`, this is great for storing large models.
@@ -66,7 +69,7 @@ After all, we have about 72,101 samples with a ratio of 0.05 (68495 on the train
 We published the dataset at [here](https://huggingface.co/datasets/pphuc25/poem-5-words-vietnamese)
 
 ### Custom Evaluation Data
-As part of the final evaluation for benchmark, we gathered around 27 Vietnamese children's stories and divided into many samples, accumulating to 118 samples. The dataset can be found [here](https://docs.google.com/spreadsheets/d/1rinedGbBtqr-dHyG0G8ffAh8mChFzgDodbtumcuKldY/edit#gid=0)
+As part of the final evaluation for benchmark, we gathered around 27 Vietnamese children's stories and divided into many samples, accumulating to 118 samples. The dataset can be found [here](/data/eval_set.json)
 
 ## Model
 As mentioned earlier, we use [Vistral-7B-Chat](https://huggingface.co/Viet-Mistral/Vistral-7B-Chat) as the base model and we fine-tune it on our curated dataset earlier. Here's a few configurations:
@@ -102,7 +105,7 @@ Here's the result:
 |----------------------------|----------------------|----------------------|-----------------------------------------|-----------------------------------------|
 | Vistral-7B-Chat (baseline) | 7B                   | 1x Nvidia Tesla A100 | 4.15%                                   | 6.75s                                   |
 | Google Gemini Pro*         | > 100B               | **Multi-TPU**            | 18.3%                                   | 3.4s                                    |
-| **VistralPoem (Ours)**         | **7B**                   | 1x Nvidia Tesla A100 | **61.4%**                                   | **3.14s**                                   |
+| **VistralPoem5 (Ours)**         | **7B**                   | 1x Nvidia Tesla A100 | **61.4%**                                   | **3.14s**                                   |
 
 &ast;  API call, meaning inference time may be affected
 
