@@ -116,7 +116,7 @@ The benchmark code can be found at `notebook/infer_poem_model.ipynb` and `notebo
 We used Gradio for fast deployment on Google Colab. It should be in `notebook/infer_poem_model.ipynb` as well.
 ![Screenshot 2024-03-09 185803](https://github.com/andythetechnerd03/Vietnamese-Poem-Summarization/assets/101492362/8bd94ed1-bb67-48fb-924e-17ad320e3005)
 
-
+Docker Image, coming soon...
 ## Future Work
 - [ ] Make a custom loss function to align rhythm and tones.
 - [ ] Use a better metric for evaluating poems (rhythm and content summarization)
