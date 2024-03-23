@@ -11,7 +11,7 @@ Here's a little example:
 ``` python
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-model_name = "pphuc25/VistralPoem5"
+model_name = "andythetechnerd03/VistralPoem5"
 tokenizer = AutoTokenizer.from_pretrained(model_name, device_map="auto")
 model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
 
@@ -66,7 +66,7 @@ This is not easy. Such data that takes the input as a long text (newspaper artic
 
 After all, we have about 72,101 samples with a ratio of 0.05 (68495 on the train set and 3606 on the test set)
 
-We published the dataset at [here](https://huggingface.co/datasets/pphuc25/poem-5-words-vietnamese)
+We published the dataset at [here](https://huggingface.co/datasets/andythetechnerd03/Vietnamese-Poem-5words)
 
 ### Custom Evaluation Data
 As part of the final evaluation for benchmark, we gathered around 27 Vietnamese children's stories and divided into many samples, accumulating to 118 samples. The dataset can be found [here](/data/eval_set.json)
@@ -94,7 +94,7 @@ As mentioned earlier, we use [Vistral-7B-Chat](https://huggingface.co/Viet-Mistr
 - Optimizer: Adamw bnb 8bit
 - Sequence Len: 1096
 
-The weights can be found [here](https://huggingface.co/pphuc25/poem-vistral)
+The weights can be found [here](https://huggingface.co/andythetechnerd03/VistralPoem5)
 
 The notebook for training can be found at `notebook/Fine_tune_LLMs_with_Axolotl.ipynb`
 
@@ -127,8 +127,3 @@ Docker Image, coming soon...
 - [Phan Phuc](https://github.com/pphuc25) for doing the fine-tuning.
 - [Me](https://github.com/andythetechnerd03) for designing the pipeline and testing the model.
 - [Truong Vo](https://github.com/justinvo277) for collecting the data.
-
-
-
-
-
